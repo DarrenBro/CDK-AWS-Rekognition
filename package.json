@@ -21,6 +21,11 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.87.1",
+    "@aws-cdk/aws-iam": "^1.87.1",
+    "@aws-cdk/aws-lambda": "^1.87.1",
+    "@aws-cdk/aws-lambda-event-sources": "^1.87.1",
+    "@aws-cdk/aws-s3": "^1.87.1",
     "@aws-cdk/core": "1.87.1",
     "source-map-support": "^0.5.16"
   }
