@@ -1,8 +1,8 @@
-# Welcome to your CDK TypeScript project!
+# Building Modern Applications with AWS CDK (TypeScript)
 
-This is a blank project for TypeScript development with CDK.
+TypeScript development with CDK.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+The `cdk.json` file tells the CDK Toolkit how to execute the app.
 
 ## Useful commands
 
