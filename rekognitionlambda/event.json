@@ -2,7 +2,7 @@
     "Records": [{
 		"s3": {
 			"bucket": {
-				"name": "your-bucket-name"
+				"name": "dbroImageBucket"
 			},
 			"object": {
 				"key": "image.jpg"

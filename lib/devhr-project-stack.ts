@@ -15,7 +15,7 @@ export class DevhrProjectStack extends cdk.Stack {
 
     // s3.Bucket is the constructor, passing in 'this' as the scope
     const imageBucket = new s3.Bucket(this, imageBucketName)
-    new cdk.CfnOutput(this, 'imageBucket', {value: imageBucket.bucketName});
+    new cdk.CfnOutput(this, 'dbroImageBucket', {value: imageBucket.bucketName});
 
     // dynamoDB - stores the image labels
     const table = new dynamodb.Table(this, 'ImageLabels', {
