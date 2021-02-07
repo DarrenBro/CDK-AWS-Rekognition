@@ -19,9 +19,20 @@ export class DevhrProjectStack extends cdk.Stack {
 
     // dynamoDB - stores the image labels
     const table = new dynamodb.Table(this, 'ImageLabels', {
+      // partitionKey is a property off the table with name 'image'
+      // Creating a no-sql, key-value store, providing a value to search for
       partitionKey: {name: 'image', type: dynamodb.AttributeType.STRING}
     });
     new cdk.CfnOutput(this, 'ddbTable', {value: table.tableName});
+
+    // lambda
+    const rekFn = new lambda.Function(this, 'rekognitionFunction', {
+      code: lambda.Code.fromAsset('rekognitionlambda'),
+      runtime: lambda.Runtime.PYTHON_3_7,
+      handler: 'index.handler'
+    });
+
+
 
     // The code that defines your stack goes here
 
