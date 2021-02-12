@@ -5,27 +5,30 @@ import lambda = require('@aws-cdk/aws-lambda');
 import {Duration} from '@aws-cdk/core';
 import iam = require('@aws-cdk/aws-iam');
 import event_sources = require('@aws-cdk/aws-lambda-event-sources');
-import {partition} from "aws-cdk/lib/util";
 
 const imageBucketName = "cdk-rekn-imagebucket"
 
-export class DevhrProjectStack extends cdk.Stack {
+export class CdkMainStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // s3.Bucket is the constructor, passing in 'this' as the scope
-    const imageBucket = new s3.Bucket(this, imageBucketName)
-    new cdk.CfnOutput(this, 'dbroImageBucket', {value: imageBucket.bucketName});
+    //  s3.Bucket -> ".Bucket" is the constructor, passing in 'this' as the scope
+    const imageBucket = new s3.Bucket(this, imageBucketName, {
+      // very important to have to be auto remove bucket
+      removalPolicy: cdk.RemovalPolicy.DESTROY
+    })
+    new cdk.CfnOutput(this, 'dbroCDKImageBucket', {value: imageBucket.bucketName});
 
-    // dynamoDB - stores the image labels
+    // dynamoDB -> Stores the image labels
     const table = new dynamodb.Table(this, 'ImageLabels', {
       // partitionKey is a property off the table with name 'image'
       // Creating a no-sql, key-value store, providing a value to search for
-      partitionKey: {name: 'image', type: dynamodb.AttributeType.STRING}
+      partitionKey: {name: 'image', type: dynamodb.AttributeType.STRING},
+      removalPolicy: cdk.RemovalPolicy.DESTROY
     });
-    new cdk.CfnOutput(this, 'ddbTable', {value: table.tableName});
+    new cdk.CfnOutput(this, 'cdkTable', {value: table.tableName});
 
-    // lambda - allowing to run our function serverless
+    // lambda -> Allowing to run our function serverless
     // logical id of lambda is "rekognitionFunction"
     const rekFn = new lambda.Function(this, 'rekognitionFunction', {
       // providing a directory that CDK can use to create/deploy an artifact
@@ -54,10 +57,6 @@ export class DevhrProjectStack extends cdk.Stack {
       actions: ['rekognition:DetectLabels'],
       resources: ['*']
     }))
-
-
-
-    // The code that defines your stack goes here
 
   }
 }
