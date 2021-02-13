@@ -2,10 +2,10 @@
     "Records": [{
 		"s3": {
 			"bucket": {
-				"name": "dbroImageBucket"
+				"name": "dbrocdkimagebucket"
 			},
 			"object": {
-				"key": "image.jpg"
+				"key": "testimage.jpg"
 			}
 		}
 	}]

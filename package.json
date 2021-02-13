@@ -1,8 +1,8 @@
 {
-  "name": "devhr-project",
+  "name": "cdk-project",
   "version": "0.1.0",
   "bin": {
-    "devhr-project": "bin/devhr-project.js"
+    "cdk-project": "bin/cdk-project.js"
   },
   "scripts": {
     "build": "tsc",

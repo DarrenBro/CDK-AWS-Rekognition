@@ -5,4 +5,4 @@ import { CdkMainStack } from '../lib/cdkMainStack';
 
 // app construct, initialising app here
 const app = new cdk.App();
-new CdkMainStack(app, 'DevhrProjectStack');
+new CdkMainStack(app, 'cdkMainStack');

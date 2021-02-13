@@ -83,10 +83,10 @@ def resize_image(image_path, resized_path):
         image.save(resized_path)
 
 def rekFunction(ourBucket, ourKey):
-    
+
     # Clean the string to add the colon back into requested name which was substitued by Amplify Library.
     safeKey = replaceSubstringWithColon(ourKey)
-    
+
     print('Currently processing the following image')
     print('Bucket: ' + ourBucket + ' key name: ' + safeKey)
 
@@ -95,8 +95,8 @@ def rekFunction(ourBucket, ourKey):
     # Try and retrieve labels from Amazon Rekognition, using the confidence level we set in minConfidence var
     try:
         detectLabelsResults = rekognition_client.detect_labels(Image={'S3Object': {'Bucket':ourBucket, 'Name':safeKey}},
-        MaxLabels=10,
-        MinConfidence=minConfidence)
+                                                               MaxLabels=10,
+                                                               MinConfidence=minConfidence)
 
     except ClientError as e:
         logging.error(e)
