@@ -7,6 +7,7 @@ import iam = require('@aws-cdk/aws-iam');
 import event_sources = require('@aws-cdk/aws-lambda-event-sources');
 
 const imageBucketName = "dbro-cdk-imagebucket"
+const resizedBucketName = imageBucketName + "-resized"
 
 export class CdkMainStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -18,6 +19,12 @@ export class CdkMainStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY
     })
     new cdk.CfnOutput(this, 'imageBucket', {value: imageBucket.bucketName});
+
+    // Thumbnail Bucket
+    const resizedBucket = new s3.Bucket(this, resizedBucketName, {
+      removalPolicy: cdk.RemovalPolicy.DESTROY
+    });
+    new cdk.CfnOutput(this, 'resizedBucket', {value: resizedBucket.bucketName});
 
     // dynamoDB -> Stores the image labels
     const imageTable = new dynamodb.Table(this, 'ImageLabels', {
@@ -41,7 +48,8 @@ export class CdkMainStack extends cdk.Stack {
       memorySize: 1024,
       environment: {
         "TABLE": imageTable.tableName,
-        "BUCKET": imageBucket.bucketName
+        "BUCKET": imageBucket.bucketName,
+        "RESIZEDBUCKET": resizedBucket.bucketName
       }
     });
 
@@ -50,6 +58,7 @@ export class CdkMainStack extends cdk.Stack {
 
     // Permission to read from s3
     imageBucket.grantRead(rekognitionLambdaFunc);
+    resizedBucket.grantPut(rekognitionLambdaFunc);
 
     // permission to allow the result of rekognition service from the sent image to be stored in dynamodb
     imageTable.grantWriteData(rekognitionLambdaFunc);
