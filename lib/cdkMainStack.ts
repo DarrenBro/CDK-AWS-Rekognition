@@ -35,6 +35,15 @@ export class CdkMainStack extends cdk.Stack {
     });
     new cdk.CfnOutput(this, 'cdkTable', {value: imageTable.tableName});
 
+    // Lambda layer, thanks to "piedpiper-ff4084"
+    // Layer needed to import the PIL library when rekognition lambda is executed
+    const layer = new lambda.LayerVersion(this, 'pil', {
+      code: lambda.Code.fromAsset('reklayer'),
+      compatibleRuntimes: [lambda.Runtime.PYTHON_3_7],
+      license: 'Apache-2.0',
+      description: 'A layer to enable the PIL library in our Rekognition Lambda',
+    });
+
     // lambda -> Allowing to run our function serverless
     // logical id of lambda is "rekognitionFunction"
     const rekognitionLambdaFunc = new lambda.Function(this, 'rekognitionFunction', {
@@ -46,6 +55,7 @@ export class CdkMainStack extends cdk.Stack {
       handler: 'index.handler',
       timeout: Duration.seconds(30),
       memorySize: 1024,
+      layers: [layer],
       environment: {
         "TABLE": imageTable.tableName,
         "BUCKET": imageBucket.bucketName,
