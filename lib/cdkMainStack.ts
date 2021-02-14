@@ -6,7 +6,7 @@ import {Duration} from '@aws-cdk/core';
 import iam = require('@aws-cdk/aws-iam');
 import event_sources = require('@aws-cdk/aws-lambda-event-sources');
 
-const imageBucketName = "dbrocdkimagebucket"
+const imageBucketName = "dbro-cdk-imagebucket"
 
 export class CdkMainStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
