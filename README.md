@@ -1,3 +1,5 @@
+Session 1 - https://darren-broderick.medium.com/building-modern-applications-with-aws-cdk-session-1-ab72020fed0a
+
 # Building Modern Applications with AWS CDK (TypeScript)
 
 TypeScript development with CDK.
